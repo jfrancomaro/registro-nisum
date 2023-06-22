@@ -4,9 +4,11 @@ import com.nisumlatam.registro.application.port.LoginService;
 import com.nisumlatam.registro.application.port.repositories.UserRepository;
 import com.nisumlatam.registro.application.service.reusable.ReusableResponse;
 import com.nisumlatam.registro.domain.entity.UserEntity;
+import com.nisumlatam.registro.domain.mapper.RegisterUserMapper;
 import com.nisumlatam.registro.domain.request.LoginRequest;
 import com.nisumlatam.registro.domain.response.GenericException;
 import com.nisumlatam.registro.domain.response.GenericoResponse;
+import com.nisumlatam.registro.domain.response.RegisterUserResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +32,8 @@ public class LoginServiceImpl extends ReusableResponse implements LoginService {
     private final UserRepository userRepository;
 
     @Override
-    public GenericoResponse login(LoginRequest request) throws GenericException {
+    @Transactional
+    public RegisterUserResponse login(LoginRequest request) throws GenericException {
 
         UserEntity userEntity = userRepository.findByEmailAndPasswordAndIsActive(request.getEmail(), request.getPassword(), true);
         if (Objects.isNull(userEntity)) throw new GenericException(globalMessages.msgValidacionUserExists());
@@ -38,12 +42,23 @@ public class LoginServiceImpl extends ReusableResponse implements LoginService {
         userEntity.setModified(LocalDateTime.now());
         userEntity.setToken(getJWTToken(userEntity.getName()));
         userEntity = userRepository.save(userEntity);
-        return procesarRespuesta(userEntity, globalMessages.msgProcesoExitoso());
+        return RegisterUserResponse.builder()
+                .id(userEntity.getId())
+                .name(userEntity.getName())
+                .email(userEntity.getEmail())
+                .password(userEntity.getPassword())
+                .phones(RegisterUserMapper.toResponse(userEntity.getPhones()))
+                .token(userEntity.getToken())
+                .created(userEntity.getCreated())
+                .modified(userEntity.getModified())
+                .lastLogin(userEntity.getLastLogin())
+                .isActive(userEntity.getIsActive())
+                .build();
     }
 
     @Override
     public String getJWTToken(String usuario) {
-        String secretKey = "mySecretKey";
+        String secretKey = "nisum";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
 

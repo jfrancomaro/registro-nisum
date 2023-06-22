@@ -6,6 +6,8 @@ import com.nisumlatam.registro.domain.request.RegisterUserRequest;
 import com.nisumlatam.registro.domain.response.GenericException;
 import com.nisumlatam.registro.domain.response.GenericoResponse;
 import com.nisumlatam.registro.domain.response.RegisterUserResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Slf4j
+@Api(tags = "Login", description = "Servicio para iniciar sesión.")
 @RestController
 @RequestMapping("/v1/users")
 @Validated
@@ -25,11 +28,14 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<GenericoResponse> login(@Valid @RequestBody LoginRequest request) throws GenericException {
+    @ApiOperation(
+            value = "Iniciar sesión",
+            notes = "Este método es para iniciar sesión y generar un token.")
+    public ResponseEntity<RegisterUserResponse> login(@Valid @RequestBody LoginRequest request) throws GenericException {
 
-        log.info("Inicio de login: usuario {}", request.getEmail());
-        GenericoResponse response = loginService.login(request);
-        log.info("Fin de login {}", response.getMensaje());
+        log.info("Start login: usuario {}", request.getEmail());
+        RegisterUserResponse response = loginService.login(request);
+        log.info("End login");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
