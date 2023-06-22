@@ -9,14 +9,7 @@ import lombok.ToString;
 @ToString
 public class GenericException extends Exception {
 
-    private int codigoError;
-
     public GenericException(String mensaje) {
         super(mensaje);
-    }
-
-    public GenericException(String mensaje, int codigoError, Object tipoReturn) {
-        super(mensaje);
-        this.codigoError = codigoError;
     }
 }

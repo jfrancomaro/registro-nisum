@@ -4,13 +4,13 @@ import com.nisumlatam.registro.application.port.LoginService;
 import com.nisumlatam.registro.application.port.RegisterUserService;
 import com.nisumlatam.registro.application.port.repositories.PhoneRepository;
 import com.nisumlatam.registro.application.port.repositories.UserRepository;
-import com.nisumlatam.registro.application.service.reusable.ReusableResponse;
 import com.nisumlatam.registro.domain.entity.PhoneEntity;
 import com.nisumlatam.registro.domain.entity.UserEntity;
 import com.nisumlatam.registro.domain.mapper.RegisterUserMapper;
 import com.nisumlatam.registro.domain.request.RegisterUserRequest;
 import com.nisumlatam.registro.domain.response.GenericException;
 import com.nisumlatam.registro.domain.response.RegisterUserResponse;
+import com.nisumlatam.registro.infrastructure.adapter.exceptions.GlobalMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,18 +24,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class RegisterUserServiceImpl extends ReusableResponse implements RegisterUserService {
+public class RegisterUserServiceImpl implements RegisterUserService {
 
     private final UserRepository userRepository;
     private final PhoneRepository phoneRepository;
     private final LoginService loginService;
+    private final GlobalMessages globalMessages;
 
     @Override
     @Transactional
     public RegisterUserResponse registerUser(RegisterUserRequest request) throws GenericException {
 
         boolean existsByEmail = userRepository.existsByEmail(request.getEmail());
-        if (existsByEmail) throw new GenericException(globalMessages.msgValidacionEmailNoExitosa());
+        if (existsByEmail) throw new GenericException(globalMessages.msgValidationEmailFailed());
 
         String token = loginService.getJWTToken(request.getName());
 

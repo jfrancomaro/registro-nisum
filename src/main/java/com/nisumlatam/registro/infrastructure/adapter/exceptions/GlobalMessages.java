@@ -23,23 +23,19 @@ public class GlobalMessages {
         accessor = new MessageSourceAccessor(messageSource, Locale.getDefault());
     }
 
-    public String msgProcesoExitoso() {
-        return accessor.getMessage("msg.proceso.exitoso");
-    }
-
     public String msgErrorGeneral() {
         return accessor.getMessage("msg.error.general");
     }
 
-    public String msgValidacionRequestNoExitosa(String valorUno, String valorDos) {
-        return accessor.getMessage("msg.validacion.error", new Object[]{valorUno, valorDos});
+    public String msgValidationRequestFailed(String valorUno, String valorDos) {
+        return accessor.getMessage("msg.validation.error", new Object[]{valorUno, valorDos});
     }
 
-    public String msgValidacionEmailNoExitosa() {
-        return accessor.getMessage("msg.validacion.email");
+    public String msgValidationEmailFailed() {
+        return accessor.getMessage("msg.validation.email");
     }
 
-    public String msgValidacionUserExists() {
-        return accessor.getMessage("msg.validacion.user");
+    public String msgValidationUserExists() {
+        return accessor.getMessage("msg.validation.user");
     }
 }

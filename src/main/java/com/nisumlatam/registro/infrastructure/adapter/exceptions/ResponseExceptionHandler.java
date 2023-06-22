@@ -38,12 +38,12 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status, WebRequest request) {
         List<Object> fieldErrors = methodArgumentNotValidException.getBindingResult().getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
         GenericoResponse response = procesarError(
-                globalMessages.msgValidacionRequestNoExitosa(
+                globalMessages.msgValidationRequestFailed(
                         "",
                         fieldErrors.toString()
                 )
         );
-        log.warn(globalMessages.msgValidacionRequestNoExitosa(methodArgumentNotValidException.getBindingResult().getObjectName(), fieldErrors.toString()));
+        log.warn(globalMessages.msgValidationRequestFailed(methodArgumentNotValidException.getBindingResult().getObjectName(), fieldErrors.toString()));
         log.warn(methodArgumentNotValidException.getMessage(), methodArgumentNotValidException);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

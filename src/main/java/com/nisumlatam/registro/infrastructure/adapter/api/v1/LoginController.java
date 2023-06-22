@@ -2,9 +2,7 @@ package com.nisumlatam.registro.infrastructure.adapter.api.v1;
 
 import com.nisumlatam.registro.application.port.LoginService;
 import com.nisumlatam.registro.domain.request.LoginRequest;
-import com.nisumlatam.registro.domain.request.RegisterUserRequest;
 import com.nisumlatam.registro.domain.response.GenericException;
-import com.nisumlatam.registro.domain.response.GenericoResponse;
 import com.nisumlatam.registro.domain.response.RegisterUserResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 

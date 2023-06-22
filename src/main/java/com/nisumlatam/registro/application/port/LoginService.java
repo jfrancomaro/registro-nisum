@@ -2,7 +2,6 @@ package com.nisumlatam.registro.application.port;
 
 import com.nisumlatam.registro.domain.request.LoginRequest;
 import com.nisumlatam.registro.domain.response.GenericException;
-import com.nisumlatam.registro.domain.response.GenericoResponse;
 import com.nisumlatam.registro.domain.response.RegisterUserResponse;
 
 public interface LoginService {

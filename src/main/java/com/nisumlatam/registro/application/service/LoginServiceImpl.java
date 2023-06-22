@@ -2,13 +2,12 @@ package com.nisumlatam.registro.application.service;
 
 import com.nisumlatam.registro.application.port.LoginService;
 import com.nisumlatam.registro.application.port.repositories.UserRepository;
-import com.nisumlatam.registro.application.service.reusable.ReusableResponse;
 import com.nisumlatam.registro.domain.entity.UserEntity;
 import com.nisumlatam.registro.domain.mapper.RegisterUserMapper;
 import com.nisumlatam.registro.domain.request.LoginRequest;
 import com.nisumlatam.registro.domain.response.GenericException;
-import com.nisumlatam.registro.domain.response.GenericoResponse;
 import com.nisumlatam.registro.domain.response.RegisterUserResponse;
+import com.nisumlatam.registro.infrastructure.adapter.exceptions.GlobalMessages;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +26,17 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class LoginServiceImpl extends ReusableResponse implements LoginService {
+public class LoginServiceImpl implements LoginService {
 
     private final UserRepository userRepository;
+    private final GlobalMessages globalMessages;
 
     @Override
     @Transactional
     public RegisterUserResponse login(LoginRequest request) throws GenericException {
 
         UserEntity userEntity = userRepository.findByEmailAndPasswordAndIsActive(request.getEmail(), request.getPassword(), true);
-        if (Objects.isNull(userEntity)) throw new GenericException(globalMessages.msgValidacionUserExists());
+        if (Objects.isNull(userEntity)) throw new GenericException(globalMessages.msgValidationUserExists());
 
         userEntity.setLastLogin(LocalDateTime.now());
         userEntity.setModified(LocalDateTime.now());
