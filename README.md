@@ -11,3 +11,4 @@ Existen 2 endpoints:
 ### Otros
 
 Para poder cambiar el patrón y mensaje de la contraseña se debe configurar en la clase RegisterUserRequest.
+En resources está la colección del postman y también el diagrama de solución.

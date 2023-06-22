@@ -58,7 +58,7 @@ public class LoginServiceImpl extends ReusableResponse implements LoginService {
 
     @Override
     public String getJWTToken(String usuario) {
-        String secretKey = "nisum";
+        String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
 
