@@ -2,12 +2,14 @@ package com.nisumlatam.registro.domain.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Generated;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Builder
 @Data
+@Generated
 public class UserDTO {
 
     private String id;
@@ -23,6 +25,7 @@ public class UserDTO {
 
     @Builder
     @Data
+    @Generated
     public static class Phone {
         private String number;
         private String cityCode;
